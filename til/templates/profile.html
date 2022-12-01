@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% load thumbnail %}
+
+{% block title %}{{user.username}}{% endblock title %}
+
+
+{% block head %}
+<style>
+    .clip-bottom {
+        clip-path: polygon(100% 50%, 0 0, 100% 0, 50% 100%, 0 0)
+    }
+</style>
+{% endblock head %}
+
+{% block body %}
+<!-- component -->
+<div class="rounded-3xl overflow-hidden shadow-xl max-w-xs my-3 bg-blue-500">
+    <img src="https://i.imgur.com/dYcYQ7E.png" class="w-full" />
+    <div class="relative flex justify-center -mt-8">
+        {% if request.user.is_authenticated %}
+        {% if request.user != user %}
+        <button class="absolute top-4 right-10 cursor-pointer group js-follow" data-username="{{user.username}}" data-action="{% if you_follow %}un{% endif %}follow" data-url="{% url 'profiles:follow' user.username %}"
+            type="button">
+            <svg class="fill-green-400 hover:fill-green-600 js-svg-follow {% if you_follow %}hidden{% else %}{% endif %}" xmlns="http://www.w3.org/2000/svg" width="32" height="32"
+                viewBox="0 0 24 24">
+                <path
+                    d="M18.5 2h-12C4.57 2 3 3.57 3 5.5V22l7-3.5 7 3.5v-9h5V5.5C22 3.57 20.43 2 18.5 2zM13 11h-2v2H9v-2H7V9h2V7h2v2h2v2zm7 0h-3V5.5c0-.827.673-1.5 1.5-1.5s1.5.673 1.5 1.5V11z">
+                </path>
+            </svg>
+            <svg class="fill-green-400 hover:fill-green-600 js-svg-unfollow {% if you_follow %}{% else %}hidden{% endif %}" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path d="M18.5 2h-12C4.57 2 3 3.57 3 5.5V22l7-3.5 7 3.5v-9h5V5.5C22 3.57 20.43 2 18.5 2zM13 11H7V9h6v2zm7 0h-3V5.5c0-.827.673-1.5 1.5-1.5s1.5.673 1.5 1.5V11z"></path></svg>
+            <div
+                class="[transform:perspective(50px)_translateZ(0)_rotateX(10deg)] group-hover:[transform:perspective(0px)_translateZ(0)_rotateX(0deg)] absolute bottom-0 mb-6 origin-bottom transform rounded text-white opacity-0 transition-all duration-300 group-hover:opacity-100">
+                <div class="flex max-w-xs flex-col items-center">
+                    <div class="rounded bg-gray-400 p-2 text-xs text-center shadow-lg js-follow-text">                        
+                        {% if you_follow %}
+                            UnFollow
+                        {% else %}
+                            Follow                            
+                        {% endif %}
+                    </div>
+                    <div class="clip-bottom h-2 w-4 bg-gray-400"></div>
+                </div>
+            </div>
+        </button>
+        {% endif %}
+        {% endif %}
+
+        {% thumbnail user.profile.image "100x100" crop="center" as im %}
+        <img src="{{ im.url }}" class="rounded-full border-solid border-white border-2 -mt-3">
+        {% endthumbnail %}
+    </div>
+    <div class="text-center px-3 pb-6 pt-2">
+        <h3 class="text-white text-sm bold font-sans">{{user.username}}</h3>
+        <p class="mt-2 font-sans font-light text-white">Hello, i'm from another the other side!</p>
+    </div>
+    <div class="flex justify-center pb-3 text-white">
+        <div class="text-center mr-3 border-r pr-3">
+            <h2>{{ total_posts }}</h2>
+            <span>Posts</span>
+        </div>
+        <div class="text-center">
+            <h2>42</h2>
+            <span>Followers</span>
+        </div>
+    </div>
+</div>
+{% endblock body %}

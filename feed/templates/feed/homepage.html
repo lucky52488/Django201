@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+
+{% block body %}
+<div class="grid 2xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-4" id="posts-container">
+
+    {% for post in posts %}
+    
+        {% include "includes/post.html" with post=post show_detail_link=True %}
+    
+    {% endfor %}
+
+</div>
+
+{% endblock body %}
