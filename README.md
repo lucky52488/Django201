@@ -1,1 +1,2 @@
-# Django201
+# Today I Learn (Tweet App)
+##based on Django
